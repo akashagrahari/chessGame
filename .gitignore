@@ -1,0 +1,10 @@
+*.iml
+*.DS_Store
+#*.jar
+*.log
+*/target/*
+**/build/**
+.idea
+/core/target/
+/representations/target
+/service/target
