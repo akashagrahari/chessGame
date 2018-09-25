@@ -5,6 +5,4 @@
 */target/*
 **/build/**
 .idea
-/core/target/
-/representations/target
-/service/target
+target/
