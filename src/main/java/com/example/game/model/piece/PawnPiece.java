@@ -28,8 +28,8 @@ public class PawnPiece extends Piece {
         int positionXDiff = positionTo.getX() - positionFrom.getX();
         int positionYDiff = positionTo.getY() - positionFrom.getY();
         boolean moveCapturesOwnUnit = moveCapturesOwnUnit(currentPlayerColour, spotTo);
-        if((positionXDiff>0 && currentPlayerColour.equals(PlayerColour.WHITE)) ||
-                ((positionXDiff<0 && currentPlayerColour.equals(PlayerColour.BLACK))) &&
+        if(((positionXDiff>0 && currentPlayerColour.equals(PlayerColour.WHITE)) ||
+                ((positionXDiff<0 && currentPlayerColour.equals(PlayerColour.BLACK)))) &&
                 !moveCapturesOwnUnit) {
             int absPositionXDiff = Math.abs(positionXDiff);
             int absPositionYDiff = Math.abs(positionYDiff);
@@ -44,7 +44,7 @@ public class PawnPiece extends Piece {
             return isValidMoveType;
 
         }
-        return true;
+        return false;
     }
 
     @Override

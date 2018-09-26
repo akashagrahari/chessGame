@@ -10,7 +10,7 @@ import static com.example.game.constants.ChessConstants.*;
  * Created by akash on 22/9/18.
  */
 public class RookPiece extends Piece {
-    RookPiece(PlayerColour playerColour) {
+    public RookPiece(PlayerColour playerColour) {
         super(PieceType.ROOK, playerColour, true);
     }
 

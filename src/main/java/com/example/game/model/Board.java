@@ -54,36 +54,12 @@ public class Board {
     public void movePiece(Spot spotFrom, Spot spotTo) {
         if (spotTo.getPiece()!=null) {
             spotTo.getPiece().killPiece();
+            if(spotTo.getPiece().getPieceType().equals(PieceType.KING)) {
+                kingPositionsMap.put(spotTo.getPiece().getPlayerColour(), null);
+            }
         }
         spotTo.setPiece(spotFrom.getPiece());
         spotFrom.setPiece(null);
-    }
-
-    public boolean moveCreateCheck(Spot spotFrom, Spot spotTo, Position currentPlayerKingPosition,
-                                   PlayerColour currentPlayerColour, PlayerColour otherPlayerColour) {
-        Piece pieceTo = spotTo.getPiece();
-        Piece pieceFrom  = spotFrom.getPiece();
-
-        simulateMove(spotFrom, spotTo, pieceFrom, pieceTo);
-        boolean check = player1CheckPlayer2(otherPlayerColour, currentPlayerKingPosition);
-        undoSimulatedMove(spotFrom, spotTo, pieceFrom, pieceTo);
-        return check;
-    }
-
-    private void simulateMove(Spot spotFrom, Spot spotTo, Piece pieceFrom, Piece pieceTo) {
-        spotTo.setPiece(pieceFrom);
-        spotFrom.setPiece(null);
-        if(pieceTo!=null) {
-            pieceTo.killPiece();
-        }
-    }
-
-    private void undoSimulatedMove(Spot spotFrom, Spot spotTo, Piece pieceFrom, Piece pieceTo) {
-        spotFrom.setPiece(pieceFrom);
-        spotTo.setPiece(pieceTo);
-        if(pieceTo!=null) {
-            pieceTo.livePiece();
-        }
     }
 
     private boolean player1CheckPlayer2(PlayerColour player1Colour, Position player2KingPosition) {
@@ -109,10 +85,20 @@ public class Board {
 
     public boolean isCurrentPlayerCheckingOtherPlayer(PlayerColour currentPlayerColour) {
         Position otherPlayerKingPosition = kingPositionsMap.get(currentPlayerColour.toggle());
-        return player1CheckPlayer2(currentPlayerColour, otherPlayerKingPosition);
+        boolean currentPlayerCheckingOtherPlayer = false;
+        if(otherPlayerKingPosition!=null) {
+            currentPlayerCheckingOtherPlayer = player1CheckPlayer2(currentPlayerColour, otherPlayerKingPosition);
+        }
+        return currentPlayerCheckingOtherPlayer;
     }
 
     public void setNewPositionOfKing(PlayerColour currentPlayerColour, Position positionTo) {
         kingPositionsMap.put(currentPlayerColour, positionTo);
+    }
+
+    public boolean areBothKingsAlive() {
+        Position whiteKingPosition = kingPositionsMap.get(PlayerColour.WHITE);
+        Position blackKingPositon = kingPositionsMap.get(PlayerColour.BLACK);
+        return (whiteKingPosition!=null && blackKingPositon!=null);
     }
 }
